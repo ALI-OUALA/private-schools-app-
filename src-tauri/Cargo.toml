@@ -1,0 +1,29 @@
+[package]
+name = "centre-educatif-excellence"
+version = "2.0.0"
+description = "Système de gestion pour centres éducatifs avec intégration RFID"
+authors = ["Centre Éducatif Excellence"]
+license = "MIT"
+repository = ""
+default-run = "centre-educatif-excellence"
+edition = "2021"
+rust-version = "1.60"
+
+[build-dependencies]
+tauri-build = { version = "1.5.0", features = [] }
+
+[dependencies]
+serde_json = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+tauri = { version = "1.5.0", features = ["api-all"] }
+tokio = { version = "1.0", features = ["full"] }
+sqlx = { version = "0.7", features = ["runtime-tokio-rustls", "sqlite", "chrono", "uuid"] }
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1.0", features = ["v4", "serde"] }
+serialport = "4.2"
+anyhow = "1.0"
+thiserror = "1.0"
+
+[features]
+default = ["custom-protocol"]
+custom-protocol = ["tauri/custom-protocol"]
