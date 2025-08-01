@@ -5,7 +5,7 @@ import { createContext, useContext, useState, useEffect, type ReactNode } from "
 interface User {
   id: string
   username: string
-  fullName: string
+  email: string
   role: "admin" | "teacher" | "staff"
   permissions: string[]
   lastLogin?: string
@@ -29,7 +29,7 @@ const DEMO_USERS: Record<string, User> = {
   admin: {
     id: "1",
     username: "admin",
-    fullName: "Administrateur Système",
+    email: "admin@centre-excellence.dz",
     role: "admin",
     permissions: ["*"],
     isActive: true,
@@ -37,7 +37,7 @@ const DEMO_USERS: Record<string, User> = {
   "fatima.benali": {
     id: "2",
     username: "fatima.benali",
-    fullName: "Fatima Benali",
+    email: "fatima.benali@centre-excellence.dz",
     role: "teacher",
     permissions: ["students.read", "students.write", "attendance.read", "attendance.write"],
     isActive: true,
@@ -45,7 +45,7 @@ const DEMO_USERS: Record<string, User> = {
   "ahmed.salem": {
     id: "3",
     username: "ahmed.salem",
-    fullName: "Ahmed Salem",
+    email: "ahmed.salem@centre-excellence.dz",
     role: "staff",
     permissions: ["payments.read", "payments.write", "students.read"],
     isActive: true,

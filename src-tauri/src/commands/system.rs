@@ -4,6 +4,34 @@ use std::path::Path;
 use tokio::fs;
 
 #[tauri::command]
+pub async fn get_system_info() -> Result<crate::models::SystemInfo, String> {
+    get_system_info_internal().await.map_err(|e| e.to_string())
+}
+
+pub async fn get_system_info_internal() -> Result<crate::models::SystemInfo, Box<dyn std::error::Error>> {
+    Ok(crate::models::SystemInfo {
+        version: "2.0.0".to_string(),
+        os: std::env::consts::OS.to_string(),
+        cpu_usage: 15.5,
+        memory_usage: 45.2,
+        disk_usage: 23.1,
+        uptime: "2h 34m".to_string(),
+    })
+}
+
+#[tauri::command]
+pub async fn save_settings(settings: crate::models::AppSettings) -> Result<bool, String> {
+    // TODO: Implement settings saving
+    Ok(true)
+}
+
+#[tauri::command]
+pub async fn load_settings() -> Result<Option<crate::models::AppSettings>, String> {
+    // TODO: Implement settings loading
+    Ok(None)
+}
+
+#[tauri::command]
 pub async fn export_data(
     state: State<'_, AppState>,
     file_path: String,

@@ -3,13 +3,14 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { AlertCircle, RotateCcw } from "lucide-react"
+import type { RFIDScanResult } from "@/lib/rfid-manager"
 
 interface ScanErrorProps {
-  message: string
-  onReset: () => void
+  result: RFIDScanResult
+  onRetry: () => void
 }
 
-export function ScanError({ message, onReset }: ScanErrorProps) {
+export function ScanError({ result, onRetry }: ScanErrorProps) {
   return (
     <Card className="border-2 border-red-500 flash-error">
       <CardContent className="flex flex-col items-center justify-center p-12 text-center">
@@ -19,11 +20,11 @@ export function ScanError({ message, onReset }: ScanErrorProps) {
         </div>
 
         <div className="mb-8">
-          <p className="text-lg font-semibold mb-2">{message}</p>
+          <p className="text-lg font-semibold mb-2">{result.error || "Erreur de scan"}</p>
           <p className="text-sm text-muted-foreground">Veuillez réessayer ou contacter l'administrateur</p>
         </div>
 
-        <Button onClick={onReset} className="flex items-center space-x-2">
+        <Button onClick={onRetry} className="flex items-center space-x-2">
           <RotateCcw className="h-4 w-4" />
           <span>Réessayer</span>
         </Button>

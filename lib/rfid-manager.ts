@@ -1,6 +1,22 @@
 "use client"
 
-import { invoke } from "@tauri-apps/api/tauri"
+// Check if we're in Tauri environment
+let invoke: any = null
+const isTauri = typeof window !== "undefined" && (window as any).__TAURI__
+
+if (isTauri) {
+  try {
+    import("@tauri-apps/api/tauri")
+      .then((module) => {
+        invoke = module.invoke
+      })
+      .catch(() => {
+        console.warn("Tauri invoke not available")
+      })
+  } catch (error) {
+    console.warn("Tauri APIs not available:", error)
+  }
+}
 
 export interface RFIDCard {
   id: string

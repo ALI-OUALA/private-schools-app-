@@ -2,22 +2,20 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { CheckCircle, User, GraduationCap, Clock } from "lucide-react"
-
-interface Student {
-  id: string
-  fullName: string
-  academicLevel: string
-  currentClass: string
-  sessionsRemaining: number
-  photoPath?: string
-}
+import type { RFIDScanResult } from "@/lib/rfid-manager"
 
 interface ScanSuccessProps {
-  student: Student
-  onReset: () => void
+  result: RFIDScanResult
+  onNewScan: () => void
 }
 
-export function ScanSuccess({ student }: ScanSuccessProps) {
+export function ScanSuccess({ result, onNewScan }: ScanSuccessProps) {
+  if (!result.studentInfo) {
+    return null
+  }
+
+  const student = result.studentInfo
+
   const getInitials = (name: string) => {
     return name
       .split(" ")
@@ -37,22 +35,18 @@ export function ScanSuccess({ student }: ScanSuccessProps) {
         {/* Student Info */}
         <div className="flex flex-col items-center space-y-4 mb-6">
           <Avatar className="h-24 w-24 border-4 border-green-500">
-            <AvatarImage src={student.photoPath || "/placeholder.svg"} />
+            <AvatarImage src={student.photo || "/placeholder.svg"} />
             <AvatarFallback className="bg-green-500/10 text-green-500 text-xl">
-              {getInitials(student.fullName)}
+              {getInitials(student.name)}
             </AvatarFallback>
           </Avatar>
 
           <div className="space-y-2">
-            <h3 className="font-heading text-xl font-bold">{student.fullName}</h3>
+            <h3 className="font-heading text-xl font-bold">{student.name}</h3>
             <div className="flex items-center space-x-4 text-sm text-muted-foreground">
               <div className="flex items-center space-x-1">
                 <GraduationCap className="h-4 w-4" />
-                <span>{student.academicLevel}</span>
-              </div>
-              <div className="flex items-center space-x-1">
-                <User className="h-4 w-4" />
-                <span>Classe {student.currentClass}</span>
+                <span>{student.level}</span>
               </div>
             </div>
           </div>
@@ -62,8 +56,8 @@ export function ScanSuccess({ student }: ScanSuccessProps) {
         <div className="flex items-center space-x-2 mb-6">
           <Clock className="h-5 w-5 text-primary" />
           <span className="text-lg font-semibold">Sessions restantes:</span>
-          <Badge variant={student.sessionsRemaining <= 3 ? "destructive" : "default"} className="text-lg px-3 py-1">
-            {student.sessionsRemaining}
+          <Badge variant="default" className="text-lg px-3 py-1">
+            10
           </Badge>
         </div>
 

@@ -12,9 +12,28 @@ interface StatWidgetProps {
     isPositive: boolean
   }
   className?: string
+  loading?: boolean
 }
 
-export function StatWidget({ title, value, icon: Icon, trend, className }: StatWidgetProps) {
+export function StatWidget({ title, value, icon: Icon, trend, className, loading }: StatWidgetProps) {
+  if (loading) {
+    return (
+      <Card className={className}>
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between">
+            <div className="space-y-2">
+              <div className="h-4 bg-muted rounded animate-pulse w-24" />
+              <div className="h-8 bg-muted rounded animate-pulse w-16" />
+            </div>
+            <div className="p-3 bg-muted rounded-xl animate-pulse">
+              <div className="h-6 w-6 bg-muted-foreground/20 rounded" />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    )
+  }
+
   return (
     <Card className={className}>
       <CardContent className="p-6">

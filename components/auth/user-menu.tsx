@@ -124,7 +124,7 @@ export function UserMenu() {
               </div>
               <div className="flex items-center space-x-3">
                 <Clock className="h-4 w-4 text-muted-foreground" />
-                <span className="text-sm">Dernière connexion: {new Date(user.lastLogin).toLocaleString("fr-FR")}</span>
+                <span className="text-sm">Dernière connexion: {user.lastLogin ? new Date(user.lastLogin).toLocaleString("fr-FR") : "Jamais"}</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Shield className="h-4 w-4 text-muted-foreground" />

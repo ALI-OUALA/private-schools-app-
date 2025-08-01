@@ -41,10 +41,10 @@ pub struct Payment {
 pub struct Attendance {
     pub id: String,
     pub student_id: String,
-    pub date: String,
+    pub date: DateTime<Utc>,
     pub status: String,
-    pub check_in_time: Option<String>,
-    pub check_out_time: Option<String>,
+    pub check_in_time: Option<DateTime<Utc>>,
+    pub check_out_time: Option<DateTime<Utc>>,
     pub notes: Option<String>,
     pub created_at: DateTime<Utc>,
 }
@@ -70,10 +70,11 @@ pub struct SystemInfo {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RfidScanResult {
-    pub success: bool,
-    pub card_id: Option<String>,
+    pub card_id: String,
     pub student: Option<Student>,
-    pub error: Option<String>,
+    pub scan_time: DateTime<Utc>,
+    pub success: bool,
+    pub message: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

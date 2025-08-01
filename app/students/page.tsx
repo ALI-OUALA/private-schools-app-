@@ -32,7 +32,7 @@ import {
 import { tauriApi, type Student } from "@/lib/tauri-api"
 import { useToast } from "@/hooks/use-toast"
 
-const ACADEMIC_LEVELS = ["1ère CEM", "2ème CEM", "3ème CEM", "1ère AS", "2ème AS", "3ème AS"]
+import { ACADEMIC_LEVELS } from "@/lib/constants"
 
 const CLASSES = ["A", "B", "C", "D"]
 

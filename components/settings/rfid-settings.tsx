@@ -10,7 +10,7 @@ import { Switch } from "@/components/ui/switch"
 import { Badge } from "@/components/ui/badge"
 import { useToast } from "@/hooks/use-toast"
 import { useLanguage } from "@/contexts/language-context"
-import { RFIDManager } from "@/lib/rfid-manager"
+import { rfidManager } from "@/lib/rfid-manager"
 import { Wifi, WifiOff, Volume2, Lightbulb, Settings, TestTube, Zap } from "lucide-react"
 
 interface RFIDSettingsState {
@@ -42,17 +42,8 @@ export function RFIDSettings() {
     mockMode: true,
   })
 
-  const rfidManager = RFIDManager.getInstance()
 
   useEffect(() => {
-    // Initialize RFID manager
-    rfidManager.initialize({
-      mockMode: settings.mockMode,
-      port: settings.comPort,
-      baudRate: settings.baudRate,
-      timeout: settings.scanTimeout,
-    })
-
     // Listen for card reads
     const handleCardRead = (cardId: string) => {
       setLastCardRead(cardId)
@@ -63,10 +54,10 @@ export function RFIDSettings() {
       }
     }
 
-    rfidManager.on("cardRead", handleCardRead)
+    // rfidManager.on("cardRead", handleCardRead)
 
     return () => {
-      rfidManager.off("cardRead", handleCardRead)
+      // rfidManager.off("cardRead", handleCardRead)
     }
   }, [settings])
 
@@ -77,7 +68,7 @@ export function RFIDSettings() {
   const testConnection = async () => {
     setIsConnecting(true)
     try {
-      const success = await rfidManager.connect()
+      const success = await rfidManager.testConnection()
       setIsConnected(success)
 
       toast({

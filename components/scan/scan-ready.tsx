@@ -1,7 +1,12 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Scan } from "lucide-react"
 
-export function ScanReady() {
+interface ScanReadyProps {
+  onStartScan: () => void
+  isConnected: boolean
+}
+
+export function ScanReady({ onStartScan, isConnected }: ScanReadyProps) {
   return (
     <Card className="border-2 border-dashed border-primary/50">
       <CardContent className="flex flex-col items-center justify-center p-12 text-center">
@@ -16,8 +21,8 @@ export function ScanReady() {
         <p className="text-muted-foreground text-lg mb-6">Approchez la carte RFID du lecteur</p>
 
         <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-          <span>Lecteur RFID connecté</span>
+          <div className={`w-2 h-2 rounded-full animate-pulse ${isConnected ? 'bg-green-500' : 'bg-red-500'}`}></div>
+          <span>Lecteur RFID {isConnected ? 'connecté' : 'déconnecté'}</span>
         </div>
       </CardContent>
     </Card>

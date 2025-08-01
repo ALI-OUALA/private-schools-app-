@@ -10,12 +10,14 @@ import { Download, FileText, Table, Database, CheckCircle, AlertCircle, RefreshC
 import { useToast } from "@/hooks/use-toast"
 
 interface ReportExportProps {
+  reportData?: any
+  filters?: any
   data?: any[]
   title?: string
   type?: "students" | "payments" | "attendance" | "financial"
 }
 
-export function ReportExport({ data = [], title = "Rapport", type = "students" }: ReportExportProps) {
+export function ReportExport({ reportData, filters, data = [], title = "Rapport", type = "students" }: ReportExportProps) {
   const [isExporting, setIsExporting] = useState(false)
   const [exportProgress, setExportProgress] = useState(0)
   const [exportFormat, setExportFormat] = useState<"pdf" | "csv" | "json">("pdf")

@@ -4,6 +4,12 @@ use uuid::Uuid;
 use chrono::Utc;
 
 #[tauri::command]
+pub async fn get_database_stats(state: State<'_, AppState>) -> Result<crate::models::DatabaseStats, String> {
+    let db = state.db.lock().await;
+    db.get_database_stats().await.map_err(|e| e.to_string())
+}
+
+#[tauri::command]
 pub async fn get_students(state: State<'_, AppState>) -> Result<Vec<Student>, String> {
     let db = state.db.lock().await;
     db.get_students().await.map_err(|e| e.to_string())
