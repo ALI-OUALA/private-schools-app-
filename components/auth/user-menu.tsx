@@ -138,7 +138,7 @@ export function UserMenu() {
               <div className="flex flex-wrap gap-2">
                 {user.permissions.map((permission) => (
                   <Badge key={permission} variant="outline" className="text-xs">
-                    {permission === "all" ? "Toutes les permissions" : permission}
+                    {permission === "all" ? "Toutes les permissions" : permission.replace(".", " ")}
                   </Badge>
                 ))}
               </div>

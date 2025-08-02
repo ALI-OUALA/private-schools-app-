@@ -54,10 +54,14 @@ export function RFIDSettings() {
       }
     }
 
-    // rfidManager.on("cardRead", handleCardRead)
+    const unsubscribe = rfidManager.onScanResult((result) => {
+      if (result.success && result.cardId) {
+        handleCardRead(result.cardId)
+      }
+    })
 
     return () => {
-      // rfidManager.off("cardRead", handleCardRead)
+      unsubscribe()
     }
   }, [settings])
 

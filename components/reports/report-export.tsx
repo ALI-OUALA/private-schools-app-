@@ -596,100 +596,48 @@ export function ReportExport({ reportData, filters, data = [], title = "Rapport"
   const FormatIcon = getFormatIcon(exportFormat)
 
   return (
-    <Card className="glass-card">
-      <CardHeader>
-        <CardTitle className="text-white flex items-center gap-2">
-          <Download className="h-5 w-5 text-blue-400" />
-          Export de Rapport
-        </CardTitle>
-        <CardDescription className="text-white/70">Exporter les données en différents formats</CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-6">
-        <div className="flex items-center gap-4">
-          <div className="flex-1">
-            <Label className="text-white">Format d'Export</Label>
-            <Select value={exportFormat} onValueChange={(value: "pdf" | "csv" | "json") => setExportFormat(value)}>
-              <SelectTrigger className="bg-white/10 border-white/20 text-white">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="pdf">
-                  <div className="flex items-center gap-2">
-                    <FileText className="h-4 w-4" />
-                    PDF - Rapport Formaté
-                  </div>
-                </SelectItem>
-                <SelectItem value="csv">
-                  <div className="flex items-center gap-2">
-                    <Table className="h-4 w-4" />
-                    CSV - Données Tabulaires
-                  </div>
-                </SelectItem>
-                <SelectItem value="json">
-                  <div className="flex items-center gap-2">
-                    <Database className="h-4 w-4" />
-                    JSON - Données Structurées
-                  </div>
-                </SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+    <div className="flex items-center gap-4">
+      <div className="flex-1">
+        <Label>Format d'Export</Label>
+        <Select value={exportFormat} onValueChange={(value: "pdf" | "csv" | "json") => setExportFormat(value)}>
+          <SelectTrigger className="w-[200px]">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="pdf">
+              <div className="flex items-center gap-2">
+                <FileText className="h-4 w-4" />
+                PDF - Rapport Formaté
+              </div>
+            </SelectItem>
+            <SelectItem value="csv">
+              <div className="flex items-center gap-2">
+                <Table className="h-4 w-4" />
+                CSV - Données Tabulaires
+              </div>
+            </SelectItem>
+            <SelectItem value="json">
+              <div className="flex items-center gap-2">
+                <Database className="h-4 w-4" />
+                JSON - Données Structurées
+              </div>
+            </SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
 
-          <Button
-            onClick={handleExport}
-            disabled={isExporting || data.length === 0}
-            className="bg-blue-500 hover:bg-blue-600 min-w-[120px]"
-          >
-            {isExporting ? (
-              <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
-            ) : (
-              <FormatIcon className="h-4 w-4 mr-2" />
-            )}
-            {isExporting ? "Export..." : `Export ${exportFormat.toUpperCase()}`}
-          </Button>
-        </div>
-
-        {isExporting && (
-          <div className="space-y-2">
-            <Progress value={exportProgress} className="h-2" />
-            <p className="text-center text-white/70 text-sm">Génération en cours... {exportProgress}%</p>
-          </div>
+      <Button
+        onClick={handleExport}
+        disabled={isExporting || data.length === 0}
+        className="min-w-[120px]"
+      >
+        {isExporting ? (
+          <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+        ) : (
+          <FormatIcon className="h-4 w-4 mr-2" />
         )}
-
-        {lastExport && (
-          <div className="bg-green-500/20 border border-green-500/30 rounded-lg p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <CheckCircle className="h-5 w-5 text-green-400" />
-              <span className="text-white font-medium">Dernier Export Réussi</span>
-            </div>
-            <div className="text-sm text-white/80">
-              <p>
-                <strong>Format:</strong> {lastExport.format}
-              </p>
-              <p>
-                <strong>Fichier:</strong> {lastExport.path}
-              </p>
-              <p>
-                <strong>Date:</strong> {lastExport.time.toLocaleString("fr-DZ")}
-              </p>
-            </div>
-          </div>
-        )}
-
-        {data.length === 0 && (
-          <div className="bg-orange-500/20 border border-orange-500/30 rounded-lg p-4 text-center">
-            <AlertCircle className="h-8 w-8 text-orange-400 mx-auto mb-2" />
-            <p className="text-white font-medium">Aucune Donnée à Exporter</p>
-            <p className="text-white/70 text-sm">Veuillez d'abord charger des données</p>
-          </div>
-        )}
-
-        <div className="text-xs text-white/60">
-          <p>• PDF: Rapport formaté prêt à imprimer</p>
-          <p>• CSV: Compatible avec Excel et autres tableurs</p>
-          <p>• JSON: Format structuré pour intégrations</p>
-        </div>
-      </CardContent>
-    </Card>
+        {isExporting ? "Export..." : `Export ${exportFormat.toUpperCase()}`}
+      </Button>
+    </div>
   )
 }

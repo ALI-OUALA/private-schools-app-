@@ -2,9 +2,10 @@ use tauri::State;
 use crate::{AppState, models::RfidScanResult, rfid::RfidReader};
 use std::sync::{Arc, Mutex};
 use chrono::Utc;
+use lazy_static::lazy_static;
 
 // Global RFID reader instance
-lazy_static::lazy_static! {
+lazy_static! {
     static ref RFID_READER: Arc<Mutex<Option<RfidReader>>> = Arc::new(Mutex::new(None));
 }
 

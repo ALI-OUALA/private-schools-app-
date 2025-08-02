@@ -12,23 +12,21 @@ interface ScanErrorProps {
 
 export function ScanError({ result, onRetry }: ScanErrorProps) {
   return (
-    <Card className="border-2 border-red-500 flash-error">
-      <CardContent className="flex flex-col items-center justify-center p-12 text-center">
-        <div className="mb-6">
-          <AlertCircle className="h-16 w-16 text-red-500 mx-auto mb-4" />
-          <h2 className="font-heading text-2xl font-bold text-red-500 mb-2">Erreur de Scan</h2>
-        </div>
+    <div className="flex flex-col items-center justify-center p-12 text-center">
+      <div className="mb-6">
+        <AlertCircle className="h-16 w-16 text-red-500 mx-auto mb-4 animate-pulse" />
+        <h2 className="font-heading text-2xl font-bold text-red-500 mb-2">Erreur de Scan</h2>
+      </div>
 
-        <div className="mb-8">
-          <p className="text-lg font-semibold mb-2">{result.error || "Erreur de scan"}</p>
-          <p className="text-sm text-muted-foreground">Veuillez réessayer ou contacter l'administrateur</p>
-        </div>
+      <div className="mb-8">
+        <p className="text-lg font-semibold mb-2">{result.error || "Erreur de scan"}</p>
+        <p className="text-sm text-muted-foreground">Veuillez réessayer ou contacter l'administrateur</p>
+      </div>
 
-        <Button onClick={onRetry} className="flex items-center space-x-2">
-          <RotateCcw className="h-4 w-4" />
-          <span>Réessayer</span>
-        </Button>
-      </CardContent>
-    </Card>
+      <Button onClick={onRetry} className="flex items-center space-x-2">
+        <RotateCcw className="h-4 w-4" />
+        <span>Réessayer</span>
+      </Button>
+    </div>
   )
 }
