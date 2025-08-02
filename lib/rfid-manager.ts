@@ -90,9 +90,12 @@ export class RFIDManager {
     try {
       // Try to initialize real RFID hardware
       if (typeof window !== "undefined" && window.__TAURI__) {
-        const result = await invoke("initialize_rfid")
-        this.mockMode = !result
-        console.log("RFID initialized:", result ? "Hardware" : "Mock mode")
+        // Check if Tauri invoke is available
+        if (invoke) {
+          const result = await invoke("initialize_rfid")
+          this.mockMode = !result
+          console.log("RFID initialized:", result ? "Hardware" : "Mock mode")
+        }
       }
     } catch (error) {
       console.log("RFID hardware not available, using mock mode")

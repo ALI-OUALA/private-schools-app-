@@ -264,133 +264,145 @@ export default function PaymentsPage() {
   }
 
   return (
-    <div className="flex flex-col h-full">
-      {/* Header */}
-      <div className="flex items-center justify-between p-6 border-b border-border">
-        <div className="flex items-center space-x-4">
-          <Link href="/">
-            <Button variant="ghost" size="sm">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Retour
-            </Button>
-          </Link>
-          <div>
-            <h1 className="font-heading text-3xl font-bold">Gestion des Paiements</h1>
-            <p className="text-muted-foreground">
-              {selectedMonth} {selectedYear} - {filteredPayments.length} paiements
-            </p>
-          </div>
-        </div>
-        <div className="flex items-center space-x-2">
-          <Button variant="outline" onClick={exportPayments}>
-            <Download className="h-4 w-4 mr-2" />
-            Exporter
-          </Button>
-          <Button onClick={() => setIsBulkModalOpen(true)} className="bg-primary hover:bg-primary/90">
-            <CreditCard className="h-4 w-4 mr-2" />
-            Paiement Groupé
-          </Button>
-        </div>
-      </div>
+    <ProtectedRoute>
+      <div className="flex h-screen bg-background">
+        <Sidebar />
+        <main className="flex-1 overflow-hidden">
+          <div className="page-background relative">
+            <div className="relative z-10 h-full overflow-auto">
+              <div className="container mx-auto p-6 space-y-6">
+                {/* Header */}
+                <div className="glass-card rounded-xl p-6">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <CreditCard className="h-8 w-8 text-primary" />
+                      <div>
+                        <h1 className="text-3xl font-heading font-bold text-foreground">Gestion des Paiements</h1>
+                        <p className="text-muted-foreground mt-1">
+                          {selectedMonth} {selectedYear} - {filteredPayments.length} paiements
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Button variant="outline" onClick={exportPayments}>
+                        <Download className="h-4 w-4 mr-2" />
+                        Exporter
+                      </Button>
+                      <Button onClick={() => setIsBulkModalOpen(true)} className="bg-primary hover:bg-primary/90">
+                        <CreditCard className="h-4 w-4 mr-2" />
+                        Paiement Groupé
+                      </Button>
+                    </div>
+                  </div>
+                </div>
 
-      {/* Controls */}
-      <div className="flex flex-wrap items-center gap-4 p-6 border-b border-border bg-card/50">
-        {/* Month/Year Selection */}
-        <div className="flex items-center space-x-2">
-          <Select value={selectedMonth} onValueChange={setSelectedMonth}>
-            <SelectTrigger className="w-[140px]">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {MONTHS_FR.map((month) => (
-                <SelectItem key={month} value={month}>
-                  {month}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <Select value={selectedYear.toString()} onValueChange={(value) => setSelectedYear(Number.parseInt(value))}>
-            <SelectTrigger className="w-[100px]">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {[2024, 2023, 2022].map((year) => (
-                <SelectItem key={year} value={year.toString()}>
-                  {year}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+                {/* Controls */}
+                <Card className="glass-card">
+                  <CardContent className="p-6">
+                    <div className="flex flex-wrap items-center gap-4">
+                      {/* Month/Year Selection */}
+                      <div className="flex items-center space-x-2">
+                        <Select value={selectedMonth} onValueChange={setSelectedMonth}>
+                          <SelectTrigger className="w-[140px]">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {MONTHS_FR.map((month) => (
+                              <SelectItem key={month} value={month}>
+                                {month}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <Select value={selectedYear.toString()} onValueChange={(value) => setSelectedYear(Number.parseInt(value))}>
+                          <SelectTrigger className="w-[100px]">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {[2024, 2023, 2022].map((year) => (
+                              <SelectItem key={year} value={year.toString()}>
+                                {year}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
 
-        {/* Level Filter */}
-        <Select value={selectedLevel} onValueChange={(value: any) => setSelectedLevel(value)}>
-          <SelectTrigger className="w-[180px]">
-            <Filter className="h-4 w-4 mr-2" />
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Tous les niveaux</SelectItem>
-            {ACADEMIC_LEVELS.map((level) => (
-              <SelectItem key={level} value={level}>
-                {level}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+                      {/* Level Filter */}
+                      <Select value={selectedLevel} onValueChange={(value: any) => setSelectedLevel(value)}>
+                        <SelectTrigger className="w-[180px]">
+                          <Filter className="h-4 w-4 mr-2" />
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">Tous les niveaux</SelectItem>
+                          {ACADEMIC_LEVELS.map((level) => (
+                            <SelectItem key={level} value={level}>
+                              {level}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
 
-        {/* Search */}
-        <div className="relative flex-1 min-w-[250px]">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder="Rechercher un étudiant..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10"
-          />
-        </div>
-      </div>
+                      {/* Search */}
+                      <div className="relative flex-1 min-w-[250px]">
+                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          placeholder="Rechercher un étudiant..."
+                          value={searchQuery}
+                          onChange={(e) => setSearchQuery(e.target.value)}
+                          className="pl-10"
+                        />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
 
-      {/* Main Content */}
-      <div className="flex-1 overflow-auto p-6">
-        {loading ? (
-          <div className="flex items-center justify-center h-64">
-            <div className="text-center">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-              <p className="text-muted-foreground">Chargement des paiements...</p>
+                {/* Main Content */}
+                <div className="space-y-6">
+                  {loading ? (
+                    <div className="flex items-center justify-center h-64">
+                      <div className="text-center">
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+                        <p className="text-muted-foreground">Chargement des paiements...</p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="space-y-6">
+                      {/* Stats Cards */}
+                      <PaymentStatsCards stats={stats} />
+
+                      {/* Payment Calendar Overview */}
+                      <PaymentCalendar payments={filteredPayments} selectedMonth={selectedMonth} selectedYear={selectedYear} />
+
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        {/* Outstanding Payments */}
+                        <OutstandingPayments
+                          payments={filteredPayments.filter((p) => p.status !== "paid")}
+                          onPaymentUpdate={(paymentId, updateData) => {
+                            setPayments(payments.map((p) => (p.id === paymentId ? { ...p, ...updateData } : p)))
+                          }}
+                        />
+
+                        {/* Payment History */}
+                        <PaymentHistory payments={filteredPayments.filter((p) => p.status === "paid")} />
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Bulk Payment Modal */}
+                <BulkPaymentModal
+                  isOpen={isBulkModalOpen}
+                  onClose={() => setIsBulkModalOpen(false)}
+                  onSave={handleBulkPayment}
+                  unpaidPayments={filteredPayments.filter((p) => p.status !== "paid")}
+                />
+              </div>
             </div>
           </div>
-        ) : (
-          <div className="space-y-6">
-            {/* Stats Cards */}
-            <PaymentStatsCards stats={stats} />
-
-            {/* Payment Calendar Overview */}
-            <PaymentCalendar payments={filteredPayments} selectedMonth={selectedMonth} selectedYear={selectedYear} />
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Outstanding Payments */}
-              <OutstandingPayments
-                payments={filteredPayments.filter((p) => p.status !== "paid")}
-                onPaymentUpdate={(paymentId, updateData) => {
-                  setPayments(payments.map((p) => (p.id === paymentId ? { ...p, ...updateData } : p)))
-                }}
-              />
-
-              {/* Payment History */}
-              <PaymentHistory payments={filteredPayments.filter((p) => p.status === "paid")} />
-            </div>
-          </div>
-        )}
+        </main>
       </div>
-
-      {/* Bulk Payment Modal */}
-      <BulkPaymentModal
-        isOpen={isBulkModalOpen}
-        onClose={() => setIsBulkModalOpen(false)}
-        onSave={handleBulkPayment}
-        unpaidPayments={filteredPayments.filter((p) => p.status !== "paid")}
-      />
-    </div>
+    </ProtectedRoute>
   )
 }

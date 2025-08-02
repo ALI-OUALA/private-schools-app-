@@ -193,90 +193,97 @@ export default function ReportsPage() {
   }
 
   return (
-    <div className="flex flex-col h-full">
-      {/* Header */}
-      <div className="flex items-center justify-between p-6 border-b border-border">
-        <div className="flex items-center space-x-4">
-          <Link href="/">
-            <Button variant="ghost" size="sm">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Retour
-            </Button>
-          </Link>
-          <div>
-            <h1 className="font-heading text-3xl font-bold">Rapports & Analyses</h1>
-            <p className="text-muted-foreground">
-              Période: {filters.dateRange.from.toLocaleDateString("fr-FR")} -{" "}
-              {filters.dateRange.to.toLocaleDateString("fr-FR")}
-            </p>
-          </div>
-        </div>
-        <div className="flex items-center space-x-2">
-          <ReportExport reportData={reportData} filters={filters} />
-        </div>
-      </div>
+    <ProtectedRoute>
+      <div className="flex h-screen bg-background">
+        <Sidebar />
+        <main className="flex-1 overflow-hidden">
+          <div className="page-background relative">
+            <div className="relative z-10 h-full overflow-auto">
+              <div className="container mx-auto p-6 space-y-6">
+                {/* Header */}
+                <div className="glass-card rounded-xl p-6">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <FileText className="h-8 w-8 text-primary" />
+                      <div>
+                        <h1 className="text-3xl font-heading font-bold text-foreground">Rapports & Analyses</h1>
+                        <p className="text-muted-foreground mt-1">
+                          Période: {filters.dateRange.from.toLocaleDateString("fr-FR")} -{" "}
+                          {filters.dateRange.to.toLocaleDateString("fr-FR")}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <ReportExport reportData={reportData} filters={filters} />
+                    </div>
+                  </div>
+                </div>
 
-      {/* Filters */}
-      <div className="flex flex-wrap items-center gap-4 p-6 border-b border-border bg-card/50">
-        <DateRangePicker
-          dateRange={filters.dateRange}
-          onDateRangeChange={(dateRange) => updateFilters({ dateRange })}
-        />
+                {/* Filters */}
+                <Card className="glass-card">
+                  <CardContent className="p-6">
+                    <div className="flex flex-wrap items-center gap-4">
+                      <DateRangePicker
+                        dateRange={filters.dateRange}
+                        onDateRangeChange={(dateRange) => updateFilters({ dateRange })}
+                      />
 
-        <Select value={filters.academicLevel} onValueChange={(value: any) => updateFilters({ academicLevel: value })}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Niveau académique" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Tous les niveaux</SelectItem>
-            {ACADEMIC_LEVELS.map((level) => (
-              <SelectItem key={level} value={level}>
-                {level}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+                      <Select value={filters.academicLevel} onValueChange={(value: any) => updateFilters({ academicLevel: value })}>
+                        <SelectTrigger className="w-[180px]">
+                          <SelectValue placeholder="Niveau académique" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">Tous les niveaux</SelectItem>
+                          {ACADEMIC_LEVELS.map((level) => (
+                            <SelectItem key={level} value={level}>
+                              {level}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
 
-        <Button
-          variant="outline"
-          onClick={() => loadReportData()}
-          disabled={loading}
-          className="flex items-center space-x-2"
-        >
-          <TrendingUp className="h-4 w-4" />
-          <span>Actualiser</span>
-        </Button>
-      </div>
+                      <Button
+                        variant="outline"
+                        onClick={() => loadReportData()}
+                        disabled={loading}
+                        className="flex items-center space-x-2"
+                      >
+                        <TrendingUp className="h-4 w-4" />
+                        <span>Actualiser</span>
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
 
-      {/* Main Content */}
-      <div className="flex-1 overflow-auto p-6">
-        {loading ? (
-          <div className="flex items-center justify-center h-64">
-            <div className="text-center">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-              <p className="text-muted-foreground">Génération des rapports...</p>
-            </div>
-          </div>
-        ) : (
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-            <TabsList className="grid w-full grid-cols-4">
-              <TabsTrigger value="overview" className="flex items-center space-x-2">
-                <BarChart3 className="h-4 w-4" />
-                <span>Vue d'ensemble</span>
-              </TabsTrigger>
-              <TabsTrigger value="attendance" className="flex items-center space-x-2">
-                <Calendar className="h-4 w-4" />
-                <span>Présences</span>
-              </TabsTrigger>
-              <TabsTrigger value="financial" className="flex items-center space-x-2">
-                <TrendingUp className="h-4 w-4" />
-                <span>Financier</span>
-              </TabsTrigger>
-              <TabsTrigger value="students" className="flex items-center space-x-2">
-                <BarChart3 className="h-4 w-4" />
-                <span>Étudiants</span>
-              </TabsTrigger>
-            </TabsList>
+                {/* Main Content */}
+                <div className="space-y-6">
+                  {loading ? (
+                    <div className="flex items-center justify-center h-64">
+                      <div className="text-center">
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+                        <p className="text-muted-foreground">Génération des rapports...</p>
+                      </div>
+                    </div>
+                  ) : (
+                    <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+                      <TabsList className="grid w-full grid-cols-4">
+                        <TabsTrigger value="overview" className="flex items-center space-x-2">
+                          <BarChart3 className="h-4 w-4" />
+                          <span>Vue d'ensemble</span>
+                        </TabsTrigger>
+                        <TabsTrigger value="attendance" className="flex items-center space-x-2">
+                          <Calendar className="h-4 w-4" />
+                          <span>Présences</span>
+                        </TabsTrigger>
+                        <TabsTrigger value="financial" className="flex items-center space-x-2">
+                          <TrendingUp className="h-4 w-4" />
+                          <span>Financier</span>
+                        </TabsTrigger>
+                        <TabsTrigger value="students" className="flex items-center space-x-2">
+                          <BarChart3 className="h-4 w-4" />
+                          <span>Étudiants</span>
+                        </TabsTrigger>
+                      </TabsList>
 
             <TabsContent value="overview" className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
