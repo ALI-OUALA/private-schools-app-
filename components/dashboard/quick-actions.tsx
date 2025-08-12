@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { useAuth } from "@/hooks/use-auth"
-import { Plus, Scan, CreditCard, FileText, Settings } from "lucide-react"
+import { Plus, Scan, CreditCard, FileText, Settings, Users } from "lucide-react"
 
 export function QuickActions() {
   const { hasPermission } = useAuth()
@@ -14,6 +14,13 @@ export function QuickActions() {
       href: "/students",
       permission: "students.write",
       color: "bg-blue-500 hover:bg-blue-600",
+    },
+    {
+      label: "Liste Étudiants",
+      icon: Users,
+      href: "/students",
+      permission: "students.read",
+      color: "bg-teal-500 hover:bg-teal-600",
     },
     {
       label: "Scanner RFID",
@@ -55,7 +62,7 @@ export function QuickActions() {
           <Button
             key={action.label}
             variant="outline"
-            className="justify-start h-12 glass bg-transparent hover:bg-white/20 dark:hover:bg-slate-800/20"
+            className="justify-start h-12 glass bg-transparent hover:bg-white/20 dark:hover:bg-slate-800/20 transition-transform duration-200 hover:scale-105 animate-fadeIn"
             onClick={() => (window.location.href = action.href)}
           >
             <div className={`p-2 rounded-lg ${action.color} mr-3`}>
