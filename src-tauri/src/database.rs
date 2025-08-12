@@ -2,7 +2,10 @@ use sqlx::{SqlitePool, Row};
 use anyhow::Result;
 use chrono::{DateTime, Utc};
 use uuid::Uuid;
+use std::fs;
 use crate::models::{Student, Payment, Attendance, DatabaseStats};
+
+const DB_PATH: &str = "centre_educatif.db";
 
 pub struct Database {
     pool: SqlitePool,
@@ -11,8 +14,7 @@ pub struct Database {
 impl Database {
     pub async fn new() -> Result<Self> {
         // Create database file in app data directory
-        let db_path = "centre_educatif.db";
-        let database_url = format!("sqlite:{}", db_path);
+        let database_url = format!("sqlite:{}", DB_PATH);
         
         let pool = SqlitePool::connect(&database_url).await?;
         
@@ -254,13 +256,14 @@ impl Database {
         let total_attendance: i64 = sqlx::query_scalar("SELECT COUNT(*) FROM attendance")
             .fetch_one(&self.pool)
             .await?;
+        let database_size = fs::metadata(DB_PATH).map(|m| m.len() as i64).unwrap_or(0);
 
         Ok(DatabaseStats {
             total_students,
             active_students,
             total_payments,
             total_attendance,
-            database_size: 0, // TODO: Calculate actual database size
+            database_size,
         })
     }
 }
