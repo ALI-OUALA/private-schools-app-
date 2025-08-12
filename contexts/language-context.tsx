@@ -76,6 +76,7 @@ const translations = {
     "settings.cancel": "Annuler",
 
     // RFID
+    "rfid.title": "Scanner RFID",
     "rfid.scanning": "Scan en cours...",
     "rfid.placeCard": "Placez votre carte RFID",
     "rfid.cardDetected": "Carte détectée",
@@ -146,6 +147,7 @@ const translations = {
     "settings.cancel": "إلغاء",
 
     // RFID
+    "rfid.title": "مسح RFID",
     "rfid.scanning": "جاري المسح...",
     "rfid.placeCard": "ضع بطاقة RFID الخاصة بك",
     "rfid.cardDetected": "تم اكتشاف البطاقة",
@@ -216,6 +218,7 @@ const translations = {
     "settings.cancel": "Cancel",
 
     // RFID
+    "rfid.title": "RFID Scan",
     "rfid.scanning": "Scanning...",
     "rfid.placeCard": "Place your RFID card",
     "rfid.cardDetected": "Card detected",
